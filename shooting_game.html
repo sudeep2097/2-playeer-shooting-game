@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<!-- 2 Player Shooting game -->
+
+<html>
+    <head>
+        <title>2 Player Shooting game</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">   
+
+        <style>
+            #div1{
+                background-color:transparent;
+                border: none;
+                width: max-content;
+                padding: 20px;
+                margin-top: 5%;
+                margin-left: 30%;   
+                text-align: center;
+                font-size: 20px;
+                border-radius: 15px;
+            }
+           
+            #game-pad{
+                visibility: hidden;
+            }
+            #reset-game{
+                visibility: hidden;
+            }
+            button{
+                font-size: 20px;
+            }
+            #p2h,#p1h{
+                visibility: hidden;
+            }
+        </style>
+        <script>
+            var flag=false;
+            var v1=document.getElementById('p1');
+            var r,l;
+            var p1h=100,p2h=100;
+            var rounds=5,round,win1=0,win2=0;
+
+            function startGame(){
+                p1h=100;
+                p2h=100;
+                if(document.getElementById('start-game').disabled=true){
+                    document.getElementById('div1').style=" background-color:aqua;";
+                }
+               
+                resetHealth();
+                if(win1==3 ||win2==3){
+                    win1=win2=0;
+                    resetScore();
+                    startGame();
+                }  
+                document.getElementById('won').innerHTML="";
+                document.getElementById('game-pad').style.visibility="visible";
+                document.getElementById('reset-game').style.visibility="visible";             
+                document.getElementById('p1').disabled=false;
+                document.getElementById('p2').disabled=false;   
+                document.getElementById('p1').disabled=false;
+                document.getElementById('p2').disabled=false;          
+                document.getElementById('start-game').disabled=true;              
+            }
+
+            function resetScore(){
+                document.getElementById('plyr1').innerHTML=0;
+                document.getElementById('plyr2').innerHTML=0;
+            }
+
+            function resetHealth(){
+                document.getElementById('player1').innerHTML=100;
+                document.getElementById('player2').innerHTML=100;
+            }
+
+           function resetGame(){
+            document.getElementById('start-game').disabled=false;
+            document.getElementById('game-pad').style.visibility="hidden";
+            document.getElementById('reset-game').style.visibility="hidden";
+            p1h=p2h=100;
+            r=l=0;
+            resetScore();
+            resetHealth();
+            document.getElementById('won').innerHTML="";
+            document.getElementById('div1').style=" background-color:transparent;";
+            
+               
+           }
+
+            function fun1(){
+                document.getElementById('p1').disabled=true;
+                document.getElementById('p2').disabled=false;
+                l=Math.floor((Math.random()*75)+1);
+                p2h=p2h-l; 
+                if(p2h<=0) p2h=0;
+                document.getElementById('player2').innerHTML=p2h;
+                score();
+            }
+
+            function fun2(){
+                document.getElementById('p2').disabled=true;
+                document.getElementById('p1').disabled=false;
+                
+                r=Math.floor((Math.random()*75)+1);
+                p1h=p1h-r;
+                if(p1h<=0) p1h=0;
+                document.getElementById('player1').innerHTML=p1h;
+                score();           
+            }
+            function score(){              
+                if(p1h==0 || p2h==0){
+                    rounds=rounds-1;                     
+                    if (p1h==0) {
+                        p1h=100;                     
+                        win1=win1+1;
+                        document.getElementById('plyr1').innerHTML=win1;
+                        if(win1>=3){
+                            document.getElementById('won').innerHTML="Player1 won the match!";
+                        }
+                    }else if (p2h==0) {
+                        p2h=100;
+                        win2=win2+1;
+                        document.getElementById('plyr2').innerHTML=win2;
+                        if(win2>=3){
+                          document.getElementById('won').innerHTML="Player2 won the match!";                        
+                        }
+                    }
+                    document.getElementById('start-game').disabled=false;
+                    document.getElementById('p1').disabled=true;
+                    document.getElementById('p2').disabled=true;
+                }
+            }           
+        </script>
+    </head>
+    <body>
+       
+        <div id="div1">
+            <button id="start-game" onclick="startGame();">Start Game</button> &nbsp; <button id="reset-game" onclick="resetGame();">Reset</button><br/>
+            <div id="game-pad">
+                <p>Player 1-Won: <span id="plyr1">0</span></p>
+                <p>Player 2-Won: <span id="plyr2">0</span></p>
+                <p >Player 1-health:<span id="player1">100</span></p>
+                <p >Player 2-health:<span id="player2">100</span></p>
+                <button id="p1" onclick="fun1();">Person1</button>
+                <button id="p2" onclick="fun2();">Person2</button>
+
+                <p id="won"></p>
+               
+            </div>
+        </div>
+ 
+    </body>
+</html>
